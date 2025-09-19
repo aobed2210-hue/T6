@@ -48,15 +48,12 @@
       <label for="expiryYear">السنة (YYYY):</label>
       <select id="expiryYear" required>
         <option value="">-- اختر السنة --</option>
-        <option>2025</option>
-        <option>2026</option>
-        <option>2027</option>
-        <option>2028</option>
-        <option>2029</option>
-        <option>2030</option>
-        <option>2031</option>
-        <option>2032</option>
-        <option>2044</option>  <!-- أضفنا 2044 -->
+        <option>2025</option><option>2026</option><option>2027</option>
+        <option>2028</option><option>2029</option><option>2030</option>
+        <option>2031</option><option>2032</option>
+        <option>2033</option><option>2034</option><option>2035</option><option>2036</option>
+        <option>2037</option><option>2038</option><option>2039</option><option>2040</option><option>2041</option>
+        <option>2042</option><option>2043</option><option>2044</option>
       </select>
 
       <label for="cvv">CVV (3 أرقام):</label>
@@ -100,8 +97,7 @@
       const month = parseInt(document.getElementById("expiryMonth").value);
       const year = parseInt(document.getElementById("expiryYear").value);
 
-      // التحقق من تاريخ الصلاحية ليكون بعد عام 2044
-      if (year < 2025 || (year === 2025 && month < 7) || year < 2044) {
+      if (year < 2025 || year > 2044 || (year === 2025 && month < 7)) {
         dateError.style.display = "block";
         return;
       }
